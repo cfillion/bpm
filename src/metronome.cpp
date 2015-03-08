@@ -36,7 +36,7 @@ Metronome::Metronome(QObject *parent)
 
 void Metronome::setBpm(const int newBpm)
 {
-  m_bpm = qBound(10, newBpm, 350);
+  m_bpm = qBound(10, newBpm, 999);
 
   Q_EMIT changed();
 }
@@ -78,7 +78,7 @@ void Metronome::performBeat()
 
   m_currentSample = m_currentBeat == 1 ? &m_accent : &m_tick;
 
-  m_output->suspend();
+  m_output->reset();
   m_output->start(m_currentSample);
 
   const int interval = MINUTE_IN_MS / m_bpm;
@@ -90,17 +90,8 @@ void Metronome::performBeat()
 
 void Metronome::outputStateChanged(QAudio::State newState)
 {
-  switch(newState) {
-  case QAudio::IdleState:
-  case QAudio::SuspendedState:
-    m_output->stop();
-    break;
-  case QAudio::StoppedState:
+  if(newState == QAudio::StoppedState)
     m_currentSample->seek(0);
-    break;
-  default:
-    break;
-  }
 }
 
 bool Metronome::tap()
