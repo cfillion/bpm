@@ -18,7 +18,7 @@ Metronome::Metronome(QObject *parent)
 
   QAudioFormat format;
   format.setSampleRate(44100);
-  format.setChannelCount(2);
+  format.setChannelCount(1);
   format.setSampleSize(16);
   format.setCodec("audio/pcm");
   format.setByteOrder(QAudioFormat::LittleEndian);
