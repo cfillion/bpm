@@ -82,8 +82,8 @@ void GUI::drawBackground(QPainter &painter) const
 
   QPainterPath rightCorner;
   rightCorner.moveTo(width(), height());
-  rightCorner.lineTo(width() - cornerX, height()); // horizontal
-  rightCorner.lineTo(width(), height() - cornerY); // vertical
+  rightCorner.lineTo(width() - cornerX, height());
+  rightCorner.lineTo(width(), height() - cornerY);
 
   painter.fillPath(leftCorner, CORNER_COLOR);
   painter.fillPath(rightCorner, CORNER_COLOR);
