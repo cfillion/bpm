@@ -3,6 +3,7 @@
 
 #include <QObject>
 
+#include <QAudio>
 #include <QElapsedTimer>
 #include <QFile>
 #include <QTimer>
@@ -37,6 +38,7 @@ Q_SIGNALS:
 
 private Q_SLOTS:
   void performBeat();
+  void outputStateChanged(QAudio::State newState);
 
 private:
   QTimer m_timer;
@@ -46,9 +48,11 @@ private:
   int m_currentBeat;
   int m_beats;
 
-  QAudioOutput *m_output;
   QFile m_accent;
   QFile m_tick;
+
+  QAudioOutput *m_output;
+  QFile *m_currentSample;
 };
 
 #endif

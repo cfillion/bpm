@@ -8,7 +8,7 @@ Metronome::Metronome(QObject *parent)
   : QObject(parent)
 {
   m_timer.setTimerType(Qt::PreciseTimer);
-  QObject::connect(&m_timer, &QTimer::timeout, this, &Metronome::performBeat);
+  connect(&m_timer, &QTimer::timeout, this, &Metronome::performBeat);
 
   m_accent.setFileName(QStringLiteral(":/accent"));
   m_accent.open(QIODevice::ReadOnly);
@@ -20,11 +20,13 @@ Metronome::Metronome(QObject *parent)
   format.setSampleRate(44100);
   format.setChannelCount(1);
   format.setSampleSize(16);
-  format.setCodec("audio/pcm");
+  format.setCodec(QStringLiteral("audio/pcm"));
   format.setByteOrder(QAudioFormat::LittleEndian);
   format.setSampleType(QAudioFormat::SignedInt);
 
   m_output = new QAudioOutput(format, this);
+  connect(m_output, &QAudioOutput::stateChanged,
+    this, &Metronome::outputStateChanged);
 
   setBpm(120);
   setBeats(4);
@@ -36,7 +38,7 @@ Metronome::Metronome(QObject *parent)
 
 void Metronome::setBpm(const int newBpm)
 {
-  m_bpm = qBound(10, newBpm, 999);
+  m_bpm = qBound(10, newBpm, 350);
   m_timer.setInterval(MINUTE_IN_MS / m_bpm);
 
   Q_EMIT changed();
@@ -75,12 +77,18 @@ void Metronome::performBeat()
   if(m_currentBeat++ >= m_beats)
     m_currentBeat = 1;
 
-  m_output->start(m_currentBeat == 1 ? &m_accent : &m_tick);
-
-  m_accent.seek(0);
-  m_tick.seek(0);
+  m_currentSample = m_currentBeat == 1 ? &m_accent : &m_tick;
+  m_output->start(m_currentSample);
 
   Q_EMIT changed();
+}
+
+void Metronome::outputStateChanged(QAudio::State newState)
+{
+  if(newState == QAudio::IdleState) {
+    m_output->stop();
+    m_currentSample->seek(0);
+  }
 }
 
 bool Metronome::tap()
