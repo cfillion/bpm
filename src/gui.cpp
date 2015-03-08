@@ -104,11 +104,11 @@ void GUI::drawForeground(QPainter &painter) const
   font.setWeight(QFont::Bold);
   painter.setFont(font);
 
-  QString padding = "\x20";
-  if(QFontMetrics(font).width("♩") < QFontMetrics(font).width(padding))
-    padding.clear();
+  QString leftPadding = "\x20";
+  if(QFontMetrics(font).width("♩") > QFontMetrics(font).width("="))
+    leftPadding.clear();
 
-  painter.drawText(0, 0, QString("♩%1= %2").arg(padding)
+  painter.drawText(0, 0, QString("♩%1= %2").arg(leftPadding)
     .arg(m_metronome->bpm()));
 
   font.setPixelSize(18);
