@@ -31,15 +31,12 @@ Metronome::Metronome(QObject *parent)
   setBpm(120);
   setBeats(4);
 
-  // let's wait until the event loop is up and running before starting the timer
-  // calling start() right now would cause the very first beat to be shorter
-  QMetaObject::invokeMethod(this, "start", Qt::QueuedConnection);
+  start();
 }
 
 void Metronome::setBpm(const int newBpm)
 {
   m_bpm = qBound(10, newBpm, 350);
-  m_timer.setInterval(MINUTE_IN_MS / m_bpm);
 
   Q_EMIT changed();
 }
@@ -54,9 +51,7 @@ void Metronome::setBeats(const int newBeats)
 void Metronome::start()
 {
   m_currentBeat = 0;
-  m_timer.start();
-
-  performBeat();
+  m_timer.start(0);
 }
 
 void Metronome::stop()
@@ -81,6 +76,10 @@ void Metronome::performBeat()
 
   m_output->suspend();
   m_output->start(m_currentSample);
+
+  const int interval = MINUTE_IN_MS / m_bpm;
+  if(m_timer.interval() != interval)
+    m_timer.setInterval(interval);
 
   Q_EMIT changed();
 }
