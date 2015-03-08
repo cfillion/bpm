@@ -52,11 +52,15 @@ void Metronome::start()
 {
   m_currentBeat = 0;
   m_timer.start(0);
+
+  Q_EMIT changed();
 }
 
 void Metronome::stop()
 {
   m_timer.stop();
+
+  Q_EMIT changed();
 }
 
 void Metronome::toggle()

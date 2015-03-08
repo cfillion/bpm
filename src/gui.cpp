@@ -122,8 +122,12 @@ void GUI::drawForeground(QPainter &painter) const
   font.setWeight(QFont::Bold);
   painter.setFont(font);
 
-  painter.drawText(51, 17, QString("Current Beat: %1")
-    .arg(m_metronome->currentBeat()));
+  if(m_metronome->isActive()) {
+    painter.drawText(51, 17, QString("Current Beat: %1")
+      .arg(m_metronome->currentBeat()));
+  }
+  else
+    painter.drawText(41, 17, "Metronome Stopped");
 
   painter.restore();
 }
