@@ -87,8 +87,17 @@ void Metronome::performBeat()
 
 void Metronome::outputStateChanged(QAudio::State newState)
 {
-  if(newState >= QAudio::SuspendedState)
+  switch(newState) {
+  case QAudio::IdleState:
+  case QAudio::SuspendedState:
+    m_output->stop();
+    break;
+  case QAudio::StoppedState:
     m_currentSample->seek(0);
+    break;
+  default:
+    break;
+  }
 }
 
 bool Metronome::tap()
