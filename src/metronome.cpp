@@ -8,6 +8,7 @@ Metronome::Metronome(QObject *parent)
   : QObject(parent)
 {
   m_timer.setSingleShot(true);
+  m_timer.setTimerType(Qt::PreciseTimer);
   QObject::connect(&m_timer, &QTimer::timeout, this, &Metronome::performBeat);
 
   m_accent.setFileName(QStringLiteral(":/accent"));
