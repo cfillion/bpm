@@ -23,7 +23,7 @@ Metronome::Metronome(QObject *parent)
 
 void Metronome::setBpm(const int newBpm)
 {
-  m_bpm = qBound(30, newBpm, 300);
+  m_bpm = qBound(10, newBpm, 999);
 
   Q_EMIT changed();
 }
