@@ -1,8 +1,9 @@
 #include "gui.h"
 
 #include <QApplication>
-#include <QPainter>
 #include <QKeyEvent>
+#include <QPainter>
+#include <QFontMetrics>
 
 #include "metronome.h"
 
@@ -103,14 +104,18 @@ void GUI::drawForeground(QPainter &painter) const
   font.setWeight(QFont::Bold);
   painter.setFont(font);
 
-  painter.drawText(0, 0, QString("♩= %1")
+  QString padding = "\x20";
+  if(QFontMetrics(font).width("♩") < QFontMetrics(font).width(padding))
+    padding.clear();
+
+  painter.drawText(0, 0, QString("♩%1= %2").arg(padding)
     .arg(m_metronome->bpm()));
 
   font.setPixelSize(18);
   font.setWeight(QFont::Normal);
   painter.setFont(font);
 
-  painter.drawText(110, 0, QString("%1 beats")
+  painter.drawText(115, 0, QString("%1 beats")
     .arg(m_metronome->beats()));
 
   font.setPixelSize(10);
