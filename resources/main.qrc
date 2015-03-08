@@ -1,0 +1,7 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+  <qresource>
+    <file alias="accent">accent.wav</file>
+    <file alias="tick">tick.wav</file>
+  </qresource>
+</RCC>
