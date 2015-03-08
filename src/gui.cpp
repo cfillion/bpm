@@ -115,7 +115,8 @@ void GUI::drawForeground(QPainter &painter) const
   font.setWeight(QFont::Bold);
   painter.setFont(font);
 
-  painter.drawText(11, 15, QString("Current Beat: %1 | Volume: 100%").arg(m_metronome->currentBeat()));
+  painter.drawText(51, 17, QString("Current Beat: %1")
+    .arg(m_metronome->currentBeat()));
 
   painter.restore();
 }
