@@ -9,7 +9,7 @@
 const int BIG_INCREMENT = 10;
 const int SMALL_INCREMENT = 1;
 
-const QColor BACKGROUND_COLOR = QColor(Qt::blue).lighter(125);
+const QColor BACKGROUND_COLOR = QColor(Qt::blue).lighter(130);
 const QColor CORNER_COLOR = QColor(Qt::magenta);
 
 GUI::GUI(QWidget *parent)
@@ -57,6 +57,9 @@ void GUI::keyPressEvent(QKeyEvent *event)
     m_metronome->tap();
     return;
   case Qt::Key_Escape:
+  case Qt::Key_Q:
+  case Qt::Key_Enter:
+  case Qt::Key_Return:
     close();
     return;
   }
