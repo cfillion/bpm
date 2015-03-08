@@ -21,6 +21,7 @@ GUI::GUI(QWidget *parent)
 
   setFixedSize(300, 100);
   setWindowTitle(qApp->applicationName());
+  setWindowFlags(Qt::WindowStaysOnTopHint);
 }
 
 void GUI::paintEvent(QPaintEvent *)
