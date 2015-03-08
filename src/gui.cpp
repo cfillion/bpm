@@ -96,22 +96,24 @@ void GUI::drawForeground(QPainter &painter) const
   painter.save();
   painter.translate(60, 52);
 
+  painter.setPen(Qt::black);
+
   QFont font = painter.font();
-  font.setPointSize(28);
+  font.setPixelSize(28);
   font.setWeight(QFont::Bold);
   painter.setFont(font);
 
   painter.drawText(0, 0, QString("♩= %1")
     .arg(m_metronome->bpm()));
 
-  font.setPointSize(18);
+  font.setPixelSize(18);
   font.setWeight(QFont::Normal);
   painter.setFont(font);
 
   painter.drawText(110, 0, QString("%1 beats")
     .arg(m_metronome->beats()));
 
-  font.setPointSize(10);
+  font.setPixelSize(10);
   font.setWeight(QFont::Bold);
   painter.setFont(font);
 
