@@ -7,7 +7,6 @@ const int MINUTE_IN_MS = 60 * 1000;
 Metronome::Metronome(QObject *parent)
   : QObject(parent)
 {
-  m_timer.setSingleShot(true);
   m_timer.setTimerType(Qt::PreciseTimer);
   QObject::connect(&m_timer, &QTimer::timeout, this, &Metronome::performBeat);
 
@@ -38,6 +37,7 @@ Metronome::Metronome(QObject *parent)
 void Metronome::setBpm(const int newBpm)
 {
   m_bpm = qBound(10, newBpm, 999);
+  m_timer.setInterval(MINUTE_IN_MS / m_bpm);
 
   Q_EMIT changed();
 }
@@ -52,6 +52,8 @@ void Metronome::setBeats(const int newBeats)
 void Metronome::start()
 {
   m_currentBeat = 0;
+  m_timer.start();
+
   performBeat();
 }
 
@@ -73,12 +75,11 @@ void Metronome::performBeat()
   if(m_currentBeat++ >= m_beats)
     m_currentBeat = 1;
 
+  m_output->start(m_currentBeat == 1 ? &m_accent : &m_tick);
+
   m_accent.seek(0);
   m_tick.seek(0);
 
-  m_output->start(m_currentBeat == 1 ? &m_accent : &m_tick);
-
-  m_timer.start(MINUTE_IN_MS / m_bpm);
   Q_EMIT changed();
 }
 
