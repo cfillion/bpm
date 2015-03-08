@@ -38,7 +38,6 @@ Q_SIGNALS:
 
 private Q_SLOTS:
   void performBeat();
-  void outputStateChanged(QAudio::State newState);
 
 private:
   QTimer m_timer;
@@ -52,7 +51,6 @@ private:
   QFile m_tick;
 
   QAudioOutput *m_output;
-  QFile *m_currentSample;
 };
 
 #endif

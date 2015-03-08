@@ -5,7 +5,7 @@
 const int MINUTE_IN_MS = 60 * 1000;
 
 Metronome::Metronome(QObject *parent)
-  : QObject(parent), m_currentSample(0)
+  : QObject(parent)
 {
   m_timer.setTimerType(Qt::PreciseTimer);
   connect(&m_timer, &QTimer::timeout, this, &Metronome::performBeat);
@@ -25,8 +25,6 @@ Metronome::Metronome(QObject *parent)
   format.setSampleType(QAudioFormat::SignedInt);
 
   m_output = new QAudioOutput(format, this);
-  connect(m_output, &QAudioOutput::stateChanged,
-    this, &Metronome::outputStateChanged);
 
   setBpm(120);
   setBeats(4);
@@ -76,22 +74,17 @@ void Metronome::performBeat()
   if(m_currentBeat++ >= m_beats)
     m_currentBeat = 1;
 
-  m_currentSample = m_currentBeat == 1 ? &m_accent : &m_tick;
+  QFile *sample = m_currentBeat == 1 ? &m_accent : &m_tick;
 
   m_output->reset();
-  m_output->start(m_currentSample);
+  sample->seek(0);
+  m_output->start(sample);
 
   const int interval = MINUTE_IN_MS / m_bpm;
   if(m_timer.interval() != interval)
     m_timer.setInterval(interval);
 
   Q_EMIT changed();
-}
-
-void Metronome::outputStateChanged(QAudio::State newState)
-{
-  if(newState == QAudio::StoppedState)
-    m_currentSample->seek(0);
 }
 
 bool Metronome::tap()
