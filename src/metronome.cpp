@@ -67,3 +67,16 @@ void Metronome::performBeat()
   m_timer.start(MINUTE_IN_MS / m_bpm);
   Q_EMIT changed();
 }
+
+bool Metronome::tap()
+{
+  if(m_tap.isValid()) {
+    setBpm(MINUTE_IN_MS / m_tap.elapsed());
+    m_tap.invalidate();
+
+    return true;
+  }
+
+  m_tap.start();
+  return false;
+}

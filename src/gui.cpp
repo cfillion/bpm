@@ -52,6 +52,9 @@ void GUI::keyPressEvent(QKeyEvent *event)
   case Qt::Key_Left:
     m_metronome->setBpm(m_metronome->bpm() - SMALL_INCREMENT);
     return;
+  case Qt::Key_T:
+    m_metronome->tap();
+    return;
   case Qt::Key_Escape:
     close();
     return;

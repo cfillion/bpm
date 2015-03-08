@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QTimer>
+#include <QElapsedTimer>
 
 class QSound;
 
@@ -22,6 +23,8 @@ public:
   int currentBeat() const { return m_currentBeat; }
   bool isActive() const { return m_timer.isActive(); }
 
+  bool tap();
+
 public Q_SLOTS:
   void start();
   void stop();
@@ -35,6 +38,7 @@ private Q_SLOTS:
 
 private:
   QTimer m_timer;
+  QElapsedTimer m_tap;
 
   int m_bpm;
   int m_currentBeat;
