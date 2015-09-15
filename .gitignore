@@ -1,2 +1,4 @@
-qt*/
+bin/
+build/
+.tup/
 .DS_Store

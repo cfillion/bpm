@@ -1,0 +1,24 @@
+MOC = moc
+RCC = rcc
+CXX = c++
+
+MOCFLAGS := --no-notes
+
+CXXFLAGS := -Wall -Wextra -pipe -fPIC
+CXXFLAGS += -fdiagnostics-color
+CXXFLAGS += -g -O2 -std=c++11
+CXXFLAGS += `pkg-config --cflags Qt5Widgets`
+CXXFLAGS += `pkg-config --cflags Qt5Multimedia`
+
+LDFLAGS := `pkg-config --libs Qt5Widgets`
+LDFLAGS += `pkg-config --libs Qt5Multimedia`
+
+!moc   = |> $(MOC) $(MOCFLAGS) -o %o %f |>
+!qrc   = |> $(RCC) -o %o %f |>
+!build = |> $(CXX) $(CXXFLAGS) -c %f -o %o |>
+!link  = |> $(CXX) $(CXXFLAGS) %f $(LDFLAGS) -o %o |>
+
+: foreach src/*.h |> !moc |> build/moc_%B.cpp
+: foreach resources/*.qrc |> !qrc |> build/rcc_%B.cpp
+: foreach src/*.cpp build/moc_*.cpp build/rcc_*.cpp |> !build |> build/%B.o
+: build/*.o |> !link |> bin/bpm

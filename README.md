@@ -7,13 +7,11 @@
 Dependencies:
 
 - Qt 5 (core, widgets and multimedia)
-- qbs (tested with clang)
+- tup (for building only)
 
 ```sh
-$ qbs release
+$ tup && bin/bpm
 ```
-
-If you haven't configured qbs to build Qt projects, check these [instructions](http://doc.qt.io/qbs/configuring.html).
 
 ## Usage
 
