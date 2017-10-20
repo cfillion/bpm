@@ -10,8 +10,8 @@ int main(int argc, char *argv[])
   app.setApplicationVersion(QStringLiteral("0.1"));
   app.setOrganizationName(QStringLiteral("cfillion"));
 
-  GUI *gui = new GUI;
-  gui->show();
+  GUI gui;
+  gui.show();
 
   return app.exec();
 }

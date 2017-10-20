@@ -7,11 +7,11 @@
 
 #include "metronome.h"
 
-const int BIG_INCREMENT = 10;
-const int SMALL_INCREMENT = 1;
+static const int BIG_INCREMENT = 10;
+static const int SMALL_INCREMENT = 1;
 
-const QColor BACKGROUND_COLOR = QColor(Qt::blue).lighter(130);
-const QColor CORNER_COLOR = QColor(Qt::magenta);
+static const QColor BACKGROUND_COLOR = QColor(Qt::blue).lighter(130);
+static const QColor CORNER_COLOR = QColor(Qt::magenta);
 
 GUI::GUI(QWidget *parent)
   : QWidget(parent)
