@@ -3,12 +3,9 @@
 
 #include <QObject>
 
-#include <QAudio>
 #include <QElapsedTimer>
-#include <QFile>
+#include <QSoundEffect>
 #include <QTimer>
-
-class QAudioOutput;
 
 class Metronome : public QObject
 {
@@ -47,10 +44,8 @@ private:
   int m_currentBeat;
   int m_beats;
 
-  QFile m_accent;
-  QFile m_tick;
-
-  QAudioOutput *m_output;
+  QSoundEffect m_accent;
+  QSoundEffect m_tick;
 };
 
 #endif

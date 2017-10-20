@@ -1,8 +1,6 @@
 #include "metronome.h"
 
-#include <QAudioOutput>
-
-const int MINUTE_IN_MS = 60 * 1000;
+static const int MINUTE_IN_MS = 60 * 1000;
 
 Metronome::Metronome(QObject *parent)
   : QObject(parent)
@@ -10,21 +8,8 @@ Metronome::Metronome(QObject *parent)
   m_timer.setTimerType(Qt::PreciseTimer);
   connect(&m_timer, &QTimer::timeout, this, &Metronome::performBeat);
 
-  m_accent.setFileName(QStringLiteral(":/accent"));
-  m_accent.open(QIODevice::ReadOnly);
-
-  m_tick.setFileName(QStringLiteral(":/tick"));
-  m_tick.open(QIODevice::ReadOnly);
-
-  QAudioFormat format;
-  format.setSampleRate(44100);
-  format.setChannelCount(1);
-  format.setSampleSize(16);
-  format.setCodec(QStringLiteral("audio/pcm"));
-  format.setByteOrder(QAudioFormat::LittleEndian);
-  format.setSampleType(QAudioFormat::SignedInt);
-
-  m_output = new QAudioOutput(format, this);
+  m_accent.setSource(QUrl("qrc:/accent"));
+  m_tick.setSource(QUrl("qrc:/tick"));
 
   setBpm(120);
   setBeats(4);
@@ -74,11 +59,7 @@ void Metronome::performBeat()
   if(m_currentBeat++ >= m_beats)
     m_currentBeat = 1;
 
-  QFile *sample = m_currentBeat == 1 ? &m_accent : &m_tick;
-
-  m_output->reset();
-  sample->seek(0);
-  m_output->start(sample);
+  (m_currentBeat == 1 ? &m_accent : &m_tick)->play();
 
   const int interval = MINUTE_IN_MS / m_bpm;
   if(m_timer.interval() != interval)
