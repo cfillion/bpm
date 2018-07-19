@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=Blue Pink Metronome
+GenericName=Metronome
+Comment=Keep in time
+Exec=/usr/bin/bpm
+Icon=bpm
+Terminal=false
+Type=Application
+Categories=Audio;Utility;
+Keywords=Player;Capture;DVD;Audio;Video;Server;Broadcast;
